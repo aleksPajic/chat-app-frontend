@@ -1,14 +1,12 @@
 import React from 'react';
-import './Chat.scss';
+import './Chat.css';
 
-const Chat = () => (
-  <div className="Chat">
-    Chat Component
-  </div>
-);
-
-Chat.propTypes = {};
-
-Chat.defaultProps = {};
+class Chat extends React.Component {
+  render() {
+    return <div className="Chat">
+      Chat Component
+    </div>;
+  }
+}
 
 export default Chat;
