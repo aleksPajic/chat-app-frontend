@@ -10,12 +10,3 @@ export function parseDate(date) {
     const seconds = date.getSeconds();
     return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`
 }
-
-export function parseDateWithoutSeconds(date) {
-    const year = date.getFullYear();
-    const month = date.toLocaleString('default', { month: 'short' });
-    const day = date.getDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    return `${day} ${month} ${year} ${hours}:${minutes}`
-}

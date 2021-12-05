@@ -2,7 +2,7 @@ import React from 'react';
 import './Chat.css';
 import Message from '../Message/Message.js'
 import axios from 'axios';
-import { CHAT_APP_USERNAME_STORAGE_KEY, parseDate, parseDateWithoutSeconds } from '../../globals'
+import { CHAT_APP_USERNAME_STORAGE_KEY, parseDate } from '../../globals'
 
 class Chat extends React.Component {
 
@@ -89,14 +89,13 @@ class Chat extends React.Component {
   displayAllMessages = () => {
     const messages = this.state?.messages ? this.state.messages : [];
     return messages.map((m, index) => {
-      const parsedDate = parseDateWithoutSeconds(new Date(m.datetimeCreated))
       if (m.username === this.state.username) {
         return <div key={index} className="your-message message-wrapper">
-          <Message username={"You"} message={m.message} dateTime={parsedDate} />
+          <Message username={"You"} message={m.message} dateTime={m.datetimeCreated} />
         </div>
       } else {
         return <div key={index} className="message-wrapper">
-          <Message username={m.username} message={m.message} dateTime={parsedDate} />
+          <Message username={m.username} message={m.message} dateTime={m.datetimeCreated} />
         </div>
       }
     })
