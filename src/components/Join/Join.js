@@ -35,7 +35,7 @@ class Join extends React.Component {
     return <div className="gray-bgcolor">
       <form className="join-form" onSubmit={this.joinChat} action="/chat">
         <h2>Welcome to chat app!</h2>
-        <p>Enter you username to start chatting!</p>
+        <p>Enter your username to start chatting!</p>
         <label>Username:</label>
         <input type="text" onChange={this.updateUsername}></input>
         <button type="submit">Join</button>
