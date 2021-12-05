@@ -4,6 +4,7 @@ import Message from '../Message/Message.js'
 import axios from 'axios';
 import { CHAT_APP_USERNAME_STORAGE_KEY, parseDate } from '../../globals'
 import { Navigate } from 'react-router-dom';
+import SocketConnection from '../SocketConnection';
 
 class Chat extends React.Component {
 
@@ -22,12 +23,16 @@ class Chat extends React.Component {
         scrollToBottom: true
       })
       this.fetchLatestMessages();
-      this.scrollToBottom();
     }
   }
 
   scrollToBottom = () => {
-    this.messagesEndRef.current.scrollTop = this.messagesEndRef.current.scrollHeight;
+    if (this.state?.scrollToBottom) {
+      this.messagesEndRef.current.scrollTop = this.messagesEndRef.current.scrollHeight;
+      this.setState({
+        scrollToBottom: false
+      });
+    }
   }
 
   sendMessage = (event) => {
@@ -67,10 +72,6 @@ class Chat extends React.Component {
     }).catch(() => alert('Error while sending message, please try later again!'));
   }
 
-  poll(callBack, interval) {
-    setTimeout(callBack, interval);
-  };
-
   fetchLatestMessages = () => {
     axios.get("http://localhost:8080/message/all").then((response) => {
       if (response.status === 200)
@@ -80,13 +81,7 @@ class Chat extends React.Component {
     }).catch((error) => {
       console.error(error)
     }).finally(() => {
-      if (this.state?.scrollToBottom) {
-        this.scrollToBottom();
-        this.setState({
-          scrollToBottom: false
-        });
-      }
-      this.poll(this.fetchLatestMessages, 1000)
+      this.scrollToBottom();
     });
   }
 
@@ -105,6 +100,17 @@ class Chat extends React.Component {
     })
   }
 
+  onMessageReceived = (latestMessages) => {
+    console.log(latestMessages);
+    let updatedList = this.state.messages;
+    updatedList.push(latestMessages);
+    this.setState({
+      messages: updatedList,
+      scrollToBottom: true
+    });
+    this.scrollToBottom();
+  }
+
   render() {
     const username = localStorage.getItem(CHAT_APP_USERNAME_STORAGE_KEY);
     if (!username) {
@@ -118,6 +124,7 @@ class Chat extends React.Component {
         <input type="text" className="form-input" onChange={this.updateMessage} value={this.state?.message ? this.state.message : ''}></input>
         <button type="submit" className="form-button">Send</button>
       </form>
+      <SocketConnection onMessageReceived={this.onMessageReceived}></SocketConnection>
     </div>;
   }
 }
