@@ -1,0 +1,13 @@
+.info-text {
+    color: #A8A8A8;
+    font-size: small;
+}
+
+.message-text {
+    padding: 6px 0 6px 0;
+    overflow-wrap: break-word;
+}
+
+.Message {
+    font-weight: 400;
+}
