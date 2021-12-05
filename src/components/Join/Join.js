@@ -1,5 +1,4 @@
 import React from 'react';
-import './Join.css';
 import { CHAT_APP_USERNAME_STORAGE_KEY } from '../../globals'
 
 class Join extends React.Component {
@@ -22,7 +21,6 @@ class Join extends React.Component {
       return;
     }
     localStorage.setItem(CHAT_APP_USERNAME_STORAGE_KEY);
-
   }
 
   updateUsername = (event) => {
@@ -33,7 +31,7 @@ class Join extends React.Component {
 
   render() {
     return <div className="gray-bgcolor">
-      <form className="join-form" onSubmit={this.joinChat} action="/chat">
+      <form className="text-input-form" onSubmit={this.joinChat} action="/chat">
         <h2>Welcome to chat app!</h2>
         <p>Enter your username to start chatting!</p>
         <label>Username:</label>
