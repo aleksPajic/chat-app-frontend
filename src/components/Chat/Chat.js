@@ -2,7 +2,7 @@ import React from 'react';
 import './Chat.css';
 import Message from '../Message/Message.js'
 import axios from 'axios';
-import { CHAT_APP_USERNAME_STORAGE_KEY, getCurrentDateParsed } from '../../globals'
+import { CHAT_APP_USERNAME_STORAGE_KEY, parseDate, parseDateWithoutSeconds } from '../../globals'
 
 class Chat extends React.Component {
 
@@ -40,7 +40,7 @@ class Chat extends React.Component {
       alert("Message can't be empty");
       return;
     }
-    const datetimeCreated = getCurrentDateParsed();
+    const datetimeCreated = parseDate(new Date());
     this.sendMessageRequest(this.state.username, this.state.message, datetimeCreated)
   }
 
@@ -89,13 +89,14 @@ class Chat extends React.Component {
   displayAllMessages = () => {
     const messages = this.state?.messages ? this.state.messages : [];
     return messages.map((m, index) => {
+      const parsedDate = parseDateWithoutSeconds(new Date(m.datetimeCreated))
       if (m.username === this.state.username) {
         return <div key={index} className="your-message message-wrapper">
-          <Message username={"You"} message={m.message} dateTime={m.datetimeCreated} />
+          <Message username={"You"} message={m.message} dateTime={parsedDate} />
         </div>
       } else {
         return <div key={index} className="message-wrapper">
-          <Message username={m.username} message={m.message} dateTime={m.datetimeCreated} />
+          <Message username={m.username} message={m.message} dateTime={parsedDate} />
         </div>
       }
     })
