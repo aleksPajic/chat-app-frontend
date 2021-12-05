@@ -2,20 +2,52 @@ import React from 'react';
 import './Chat.css';
 import Message from '../Message/Message.js'
 import axios from 'axios';
+import { CHAT_APP_USERNAME_STORAGE_KEY, getCurrentDateParsed } from '../../globals'
 
 class Chat extends React.Component {
 
   componentDidMount() {
+    this.setState({
+      message: ''
+    })
     this.fetchLatestMessages();
   }
 
   sendMessage = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    const username = localStorage.getItem(CHAT_APP_USERNAME_STORAGE_KEY);
+    if (!username) {
+      console.log('username not defined');
+      return;
+    }
+    if (!this.state.message) {
+      this.setState({
+        hasError: true
+      });
+      alert("Message can't be empty");
+      return;
+    }
+    const datetimeCreated = getCurrentDateParsed();
+    this.sendMessageRequest(username, this.state.message, datetimeCreated)
   }
 
-  updateMessage = () => {
+  updateMessage = (e) => {
+    this.setState({
+      message: e.target.value
+    })
+  }
 
+  sendMessageRequest = (username, message, datetimeCreated) => {
+    axios.post("http://localhost:8080/message/create", {
+      username,
+      message,
+      datetimeCreated
+    }).then(() => {
+      console.log("Message sent");
+    }).catch((error) => {
+      console.error(error)
+    });
   }
 
   fetchLatestMessages = () => {

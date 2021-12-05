@@ -20,7 +20,7 @@ class Join extends React.Component {
       event.stopPropagation();
       return;
     }
-    localStorage.setItem(CHAT_APP_USERNAME_STORAGE_KEY);
+    localStorage.setItem(CHAT_APP_USERNAME_STORAGE_KEY, this.state.username);
   }
 
   updateUsername = (event) => {
