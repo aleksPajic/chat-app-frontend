@@ -24,7 +24,7 @@
 
 .text-input-form {
     flex: 0 0 5%;
-    background-color: #E0E0E0;
+    background-color: #C8C8C8;
     padding: 16px;
     display: flex;
     flex-direction: row;
@@ -48,7 +48,7 @@
 .form-button {
     background-color: transparent;
     border: none;
-    color: #707070;
+    color: #696969;
     font-size: large;
     font-weight: bold;
     padding-left: 16px;
