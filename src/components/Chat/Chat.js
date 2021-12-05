@@ -1,8 +1,13 @@
 import React from 'react';
 import './Chat.css';
 import Message from '../Message/Message.js'
+import axios from 'axios';
 
 class Chat extends React.Component {
+
+  componentDidMount() {
+    this.fetchLatestMessages();
+  }
 
   sendMessage = (event) => {
     event.preventDefault();
@@ -13,14 +18,27 @@ class Chat extends React.Component {
 
   }
 
+  fetchLatestMessages = () => {
+    axios.get("http://localhost:8080/message/all").then((response) => {
+      if (response.status === 200)
+        this.setState({
+          messages: response.data
+        })
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+
   displayAllMessages = () => {
-    const messages = [{ username: 'aleks', message: "Test message", dateTime: "12/5/2021" }];
-    return messages.map(m => <Message username={m.username} message={m.message} dateTime={m.dateTime} />)
+    const messages = this.state?.messages ? this.state.messages : [];
+    return messages.map((m, index) => <Message key={index} username={m.username} message={m.message} dateTime={m.datetimeCreated} />)
   }
 
   render() {
     return <div className="Chat">
-      {this.displayAllMessages()}
+      <div className="messages-list">
+        {this.displayAllMessages()}
+      </div>
       <form className="text-input-form" onSubmit={this.sendMessage} >
         <input type="text" onChange={this.updateMessage}></input>
         <button type="submit">Send</button>
