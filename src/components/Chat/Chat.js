@@ -43,12 +43,12 @@ class Chat extends React.Component {
       username,
       message,
       datetimeCreated
-    }).then(() => {
-      console.log("Message sent");
-    }).catch((error) => {
-      console.error(error)
     });
   }
+
+  poll(callBack, interval) {
+    setTimeout(callBack, interval);
+  };
 
   fetchLatestMessages = () => {
     axios.get("http://localhost:8080/message/all").then((response) => {
@@ -58,6 +58,8 @@ class Chat extends React.Component {
         })
     }).catch((error) => {
       console.error(error)
+    }).finally(() => {
+      this.poll(this.fetchLatestMessages, 1000)
     });
   }
 
