@@ -5,6 +5,7 @@
 
 .message-text {
     padding: 6px 0 6px 0;
+    overflow-wrap: break-word;
 }
 
 .Message {
