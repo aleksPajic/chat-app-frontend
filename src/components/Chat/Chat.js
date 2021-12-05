@@ -3,6 +3,7 @@ import './Chat.css';
 import Message from '../Message/Message.js'
 import axios from 'axios';
 import { CHAT_APP_USERNAME_STORAGE_KEY, parseDate } from '../../globals'
+import { Navigate } from 'react-router-dom';
 
 class Chat extends React.Component {
 
@@ -13,13 +14,16 @@ class Chat extends React.Component {
 
   componentDidMount() {
     const username = localStorage.getItem(CHAT_APP_USERNAME_STORAGE_KEY);
-    this.setState({
-      message: '',
-      username: username,
-      scrollToBottom: true
-    })
-    this.fetchLatestMessages();
-    this.scrollToBottom();
+
+    if (username) {
+      this.setState({
+        message: '',
+        username: username,
+        scrollToBottom: true
+      })
+      this.fetchLatestMessages();
+      this.scrollToBottom();
+    }
   }
 
   scrollToBottom = () => {
@@ -33,7 +37,7 @@ class Chat extends React.Component {
       console.log('username not defined');
       return;
     }
-    if (!this.state.message) {
+    if (!this.state.message.trim()) {
       this.setState({
         hasError: true
       });
@@ -102,6 +106,10 @@ class Chat extends React.Component {
   }
 
   render() {
+    const username = localStorage.getItem(CHAT_APP_USERNAME_STORAGE_KEY);
+    if (!username) {
+      return <Navigate replace to="/" />;
+    }
     return <div className="Chat">
       <div className="messages-list" ref={this.messagesEndRef} >
         {this.displayAllMessages()}

@@ -12,7 +12,7 @@ class Join extends React.Component {
   }
 
   joinChat = (event) => {
-    if (!this.state.username) {
+    if (!this.state.username.trim()) {
       this.setState({
         hasError: true
       });
@@ -36,7 +36,7 @@ class Join extends React.Component {
         <h2>Welcome to chat app!</h2>
         <p>Enter your username to start chatting!</p>
         <label>Username</label>
-        <input type="text" className="form-input username-input" onChange={this.updateUsername}></input>
+        <input type="text" className="form-input username-input" onChange={this.updateUsername} value={this.state?.username ? this.state.username : ''}></input>
         <button type="submit" className="form-bordered-button">Join</button>
       </form>
     </div>;
