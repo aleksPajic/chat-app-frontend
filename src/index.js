@@ -7,7 +7,7 @@ import Main from './Main';
 const routing = (
   <>
     <Router>
-      <div>
+      <div className="full-height">
         <Main />
       </div>
     </Router>

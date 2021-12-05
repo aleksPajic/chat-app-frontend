@@ -6,18 +6,30 @@ import { CHAT_APP_USERNAME_STORAGE_KEY, getCurrentDateParsed } from '../../globa
 
 class Chat extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.messagesEndRef = React.createRef();
+  }
+
   componentDidMount() {
+    const username = localStorage.getItem(CHAT_APP_USERNAME_STORAGE_KEY);
     this.setState({
-      message: ''
+      message: '',
+      username: username,
+      scrollToBottom: true
     })
     this.fetchLatestMessages();
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    this.messagesEndRef.current.scrollTop = this.messagesEndRef.current.scrollHeight;
   }
 
   sendMessage = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const username = localStorage.getItem(CHAT_APP_USERNAME_STORAGE_KEY);
-    if (!username) {
+    if (!this.state.username) {
       console.log('username not defined');
       return;
     }
@@ -29,7 +41,7 @@ class Chat extends React.Component {
       return;
     }
     const datetimeCreated = getCurrentDateParsed();
-    this.sendMessageRequest(username, this.state.message, datetimeCreated)
+    this.sendMessageRequest(this.state.username, this.state.message, datetimeCreated)
   }
 
   updateMessage = (e) => {
@@ -59,23 +71,39 @@ class Chat extends React.Component {
     }).catch((error) => {
       console.error(error)
     }).finally(() => {
+      if (this.state?.scrollToBottom) {
+        this.scrollToBottom();
+        this.setState({
+          scrollToBottom: false
+        });
+      }
       this.poll(this.fetchLatestMessages, 1000)
     });
   }
 
   displayAllMessages = () => {
     const messages = this.state?.messages ? this.state.messages : [];
-    return messages.map((m, index) => <Message key={index} username={m.username} message={m.message} dateTime={m.datetimeCreated} />)
+    return messages.map((m, index) => {
+      if (m.username === this.state.username) {
+        return <div key={index} className="your-message message-wrapper">
+          <Message username={"You"} message={m.message} dateTime={m.datetimeCreated} />
+        </div>
+      } else {
+        return <div key={index} className="message-wrapper">
+          <Message username={m.username} message={m.message} dateTime={m.datetimeCreated} />
+        </div>
+      }
+    })
   }
 
   render() {
     return <div className="Chat">
-      <div className="messages-list">
+      <div className="messages-list" ref={this.messagesEndRef} >
         {this.displayAllMessages()}
       </div>
       <form className="text-input-form" onSubmit={this.sendMessage} >
-        <input type="text" onChange={this.updateMessage}></input>
-        <button type="submit">Send</button>
+        <input type="text" className="form-input" onChange={this.updateMessage}></input>
+        <button type="submit" className="form-button">Send</button>
       </form>
     </div>;
   }

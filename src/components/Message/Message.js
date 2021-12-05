@@ -5,9 +5,9 @@ class Message extends React.Component {
 
   render() {
     return <div className="Message">
-      <p>{this.props.username}</p>
-      <p>{this.props.message}</p>
-      <p>{this.props.dateTime}</p>
+      <div className="info-text">{this.props.username}</div>
+      <div className="message-text">{this.props.message}</div>
+      <div className="info-text">{this.props.dateTime}</div>
     </div>;
   }
 }
