@@ -1,5 +1,6 @@
 import React from 'react';
-import { CHAT_APP_USERNAME_STORAGE_KEY } from '../../globals'
+import { CHAT_APP_USERNAME_STORAGE_KEY } from '../../globals';
+import './Join.css';
 
 class Join extends React.Component {
 
@@ -30,13 +31,13 @@ class Join extends React.Component {
   }
 
   render() {
-    return <div className="gray-bgcolor">
-      <form className="text-input-form" onSubmit={this.joinChat} action="/chat">
+    return <div className="whitesmoke-bgcolor join-wrapper">
+      <form className="username-input-form" onSubmit={this.joinChat} action="/chat">
         <h2>Welcome to chat app!</h2>
         <p>Enter your username to start chatting!</p>
-        <label>Username:</label>
-        <input type="text" onChange={this.updateUsername}></input>
-        <button type="submit">Join</button>
+        <label>Username</label>
+        <input type="text" className="form-input username-input" onChange={this.updateUsername}></input>
+        <button type="submit" className="form-bordered-button">Join</button>
       </form>
     </div>;
   }

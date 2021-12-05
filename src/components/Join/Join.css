@@ -1,0 +1,30 @@
+.join-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.username-input-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-bordered-button {
+    font-size: large;
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    background-color: #707070;
+    color: whitesmoke;
+    margin-top: 16px;
+}
+
+.username-input {
+    border: solid 1px gray !important;
+    margin-top: 8px;
+    padding: 8px;
+}
