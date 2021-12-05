@@ -55,7 +55,12 @@ class Chat extends React.Component {
       username,
       message,
       datetimeCreated
-    });
+    }).then(() => {
+      this.setState({
+        scrollToBottom: true,
+        message: ''
+      })
+    }).catch(() => alert('Error while sending message, please try later again!'));
   }
 
   poll(callBack, interval) {
@@ -102,7 +107,7 @@ class Chat extends React.Component {
         {this.displayAllMessages()}
       </div>
       <form className="text-input-form" onSubmit={this.sendMessage} >
-        <input type="text" className="form-input" onChange={this.updateMessage}></input>
+        <input type="text" className="form-input" onChange={this.updateMessage} value={this.state?.message ? this.state.message : ''}></input>
         <button type="submit" className="form-button">Send</button>
       </form>
     </div>;
