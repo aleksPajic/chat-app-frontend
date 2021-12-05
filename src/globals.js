@@ -1,0 +1,1 @@
+export const CHAT_APP_USERNAME_STORAGE_KEY = "ChatAppUsername";

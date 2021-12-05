@@ -6,10 +6,8 @@ import Main from './Main';
 
 const routing = (
   <>
-    <h1>Testing</h1>
     <Router>
       <div>
-        <h1>React Router Example</h1>
         <Main />
       </div>
     </Router>
